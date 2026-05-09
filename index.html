@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nana's raider</title>
+    <style>
+        :root {
+            --bg: #050508;
+            --panel: rgba(15, 15, 25, 0.8);
+            --accent-primary: #00f2ff; /* シアン */
+            --accent-secondary: #7000ff; /* パープル */
+            --text-main: #f0f0f0;
+            --text-dim: #9494b8;
+            --success: #39ff14;
+            --error: #ff0055;
+            --warning: #ffb800;
+        }
+
+        body {
+            margin: 0;
+            padding: 15px;
+            font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+            background: var(--bg);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(112, 0, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(0, 242, 255, 0.15) 0%, transparent 40%);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: var(--panel);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        h2 {
+            margin: 0 0 25px 0;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: 5px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .field-group { margin-bottom: 18px; }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: var(--accent-primary);
+            letter-spacing: 1px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 14px;
+            color: #fff;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            box-sizing: border-box;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        /* モバイル対応 */
+        @media (max-width: 480px) {
+            .grid { grid-template-columns: 1fr; }
+            .container { padding: 20px; }
+        }
+
+        button {
+            border-radius: 12px;
+            padding: 16px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-transform: uppercase;
+        }
+
+        .btn-check {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .btn-check:hover { background: rgba(255, 255, 255, 0.1); }
+
+        .btn-start {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: #000;
+            box-shadow: 0 4px 15px rgba(0, 242, 255, 0.3);
+        }
+
+        .btn-start:hover:not(:disabled) {
+            transform: scale(1.02);
+            filter: brightness(1.2);
+        }
+
+        .btn-stop {
+            background: #1a1a1a;
+            color: #444;
+        }
+
+        .btn-stop.active {
+            background: var(--error);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 0, 85, 0.3);
+        }
+
+        #log {
+            margin-top: 25px;
+            height: 180px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 15px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.75rem;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            line-height: 1.5;
+        }
+
+        .log-entry { border-bottom: 1px solid rgba(255, 255, 255, 0.03); padding: 4px 0; }
+        .log-success { color: var(--success); }
+        .log-error { color: var(--error); }
+        .log-info { color: var(--accent-primary); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>nana's raider</h2>
+
+    <div class="field-group">
+        <label>アクセストークン (1行に1つ)</label>
+        <textarea id="tokens" rows="3" placeholder="ここにトークンを貼り付け..."></textarea>
+    </div>
+
+    <div class="grid field-group">
+        <div>
+            <label>チャンネルID</label>
+            <input type="text" id="channelId" placeholder="123456789...">
+        </div>
+        <div>
+            <label>送信間隔 (ミリ秒)</label>
+            <input type="number" id="delay" value="1000">
+        </div>
+    </div>
+
+    <div class="field-group">
+        <label>カスタムメッセージ (カンマ区切りでランダム送信)</label>
+        <textarea id="messages" rows="2" placeholder="メッセージ1, メッセージ2..."></textarea>
+    </div>
+
+    <div class="grid field-group">
+        <button class="btn-check" onclick="checkTokens()">トークン確認</button>
+        <select id="mode">
+            <option value="1">並列モード (一斉送信)</option>
+            <option value="2">順次モード (交互送信)</option>
+        </select>
+    </div>
+
+    <div class="grid">
+        <button id="startBtn" class="btn-start" onclick="startRaiding()">システム起動</button>
+        <button id="stopBtn" class="btn-stop" onclick="stopRaiding()" disabled>緊急停止</button>
+    </div>
+
+    <div id="log">// システム待機中...</div>
+</div>
+
+<script>
+    let isRunning = false;
+
+    const logger = (msg, type) => {
+        const logBox = document.getElementById('log');
+        const className = type === 'error' ? 'log-error' : (type === 'success' ? 'log-success' : 'log-info');
+        const time = new Date().toLocaleTimeString();
+        logBox.innerHTML = `<div class="log-entry ${className}">[${time}] ${msg}</div>` + logBox.innerHTML;
+    };
+
+    function startRaiding() {
+        const tks = document.getElementById('tokens').value.trim();
+        const cid = document.getElementById('channelId').value.trim();
+        if(!tks || !cid) return alert("トークンとチャンネルIDを入力してください。");
+
+        isRunning = true;
+        document.getElementById('startBtn').disabled = true;
+        document.getElementById('stopBtn').disabled = false;
+        document.getElementById('stopBtn').classList.add('active');
+        logger("RAIDシーケンスを開始しました", "info");
+        runLoop();
+    }
+
+    function stopRaiding() {
+        isRunning = false;
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('stopBtn').disabled = true;
+        document.getElementById('stopBtn').classList.remove('active');
+        logger("システムを停止しました", "error");
+    }
+
+    async function runLoop() {
+        while (isRunning) {
+            const tks = document.getElementById('tokens').value.split('\n').filter(t => t.trim());
+            const cid = document.getElementById('channelId').value.trim();
+            const dly = parseInt(document.getElementById('delay').value) || 1000;
+            const msgInput = document.getElementById('messages').value;
+            const msgs = msgInput.split(',').map(m => m.trim()).filter(m => m);
+            
+            const tasks = tks.map(async (t) => {
+                if(!isRunning) return;
+                let content = msgs.length > 0 ? msgs[Math.floor(Math.random() * msgs.length)] : "nana's raider 稼働中";
+                
+                // わずかなランダム文字列を付与して重複検知を回避
+                content += " [" + Math.random().toString(36).substring(7) + "]";
+
+                try {
+                    const res = await fetch(`https://discord.com/api/v9/channels/${cid}/messages`, {
+                        method: 'POST',
+                        headers: { 'Authorization': t.trim(), 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ content: content })
+                    });
+                    
+                    const shortT = t.substring(0, 10);
+                    if(res.ok) logger(`送信成功: ${shortT}...`, "success");
+                    else if(res.status === 429) logger(`制限中: ${shortT} (待機が必要)`, "error");
+                    else logger(`送信失敗: 状態コード ${res.status}`, "error");
+                } catch (e) {
+                    logger("通信エラーが発生しました", "error");
+                }
+            });
+
+            if(document.getElementById('mode').value === "1") {
+                await Promise.all(tasks);
+                await new Promise(r => setTimeout(r, dly));
+            } else {
+                for(let task of tasks) {
+                    if(!isRunning) break;
+                    await task;
+                    await new Promise(r => setTimeout(r, dly / tks.length));
+                }
+            }
+        }
+    }
+
+    async function checkTokens() {
+        const tks = document.getElementById('tokens').value.split('\n').filter(t => t.trim());
+        if(tks.length === 0) return logger("確認するトークンがありません", "error");
+
+        logger("トークンの有効性を確認中...", "info");
+        for (const t of tks) {
+            try {
+                const r = await fetch('https://discord.com/api/v9/users/@me', { headers: { 'Authorization': t.trim() } });
+                const data = await r.json();
+                if(r.ok) logger(`有効なトークン: ${data.username} (${t.substring(0,8)}...)`, "success");
+                else logger(`無効なトークンを確認しました`, "error");
+            } catch(e) { logger("API接続エラー", "error"); }
+        }
+    }
+</script>
+</body>
+</html>
